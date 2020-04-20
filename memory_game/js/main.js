@@ -1,5 +1,3 @@
-
-
 const cards = [
 {
   rank: 'queen',
@@ -23,25 +21,61 @@ const cards = [
 }
 ];
 
-const cardsInPlay = [];
+function createBoard(){
+  for (let i = 0; i < cards.length; i++) {
+    let cardElement = document.createElement('img');
+    let gameBoard = document.getElementById('game-board')
 
-function checkForMatch(){
-  if (cardsInPlay[0] === cardsInPlay[1]) {
-  console.log("You found a match!");
-} else {
-  console.log("Sorry, try again.");
+    cardElement.setAttribute('src', 'images/back.png');
+    cardElement.setAttribute('data-id', i);
+    cardElement.addEventListener('click', flipCard);
+    gameBoard.appendChild(cardElement);
   }
 }
 
-function flipCard(cardId){
+function resetBoard(){
+  document.getElementById('statusWindow').innerHTML = "";
+  document.getElementById('statusWindow').style.backgroundColor = "white";
+  cardsInPlay.pop();
+  cardsInPlay.pop();
+
+  let cardElements = document.getElementById('game-board').childNodes;
+  for (let i = 0; i < cardElements.length; i++) {
+    let cardElement = cardElements[i]
+    cardElement.setAttribute('src', 'images/back.png');
+  }
+}
+
+const cardsInPlay = [];
+function checkForMatch(){
+  if (cardsInPlay[0] === cardsInPlay[1]) {
+  document.getElementById('statusWindow').innerHTML = "You found a match!";
+  document.getElementById('statusWindow').style.backgroundColor = "green";
+  setTimeout( () => {resetBoard();}, 5000);
+  } else {
+  document.getElementById('statusWindow').innerHTML = "Sorry, try again!";
+  document.getElementById('statusWindow').style.backgroundColor = "red";
+  setTimeout( () => {resetBoard();}, 5000);
+  }
+}
+
+function flipCard(){
+  let cardId = this.getAttribute('data-id');
   cardsInPlay.push(cards[cardId].rank);
-  console.log(cards[cardId].cardImage)
+  console.log(cards[cardId].cardImage);
   console.log("User flipped " + cards[cardId].rank + " of " + cards[cardId].suit);
+  this.setAttribute('src', cards[cardId].cardImage);
   if (cardsInPlay.length === 2) {
     checkForMatch()
   } else {
-    console.log("Please select a second card.")
+    document.getElementById('statusWindow').innerHTML = "Please select a second card.";
+    document.getElementById('statusWindow').style.backgroundColor = "Yellow";
   }
 }
-flipCard(0);
-flipCard(1);
+
+function  changeStatus(){
+  status = document.getElementById('statusWindow');
+
+}
+
+createBoard();
