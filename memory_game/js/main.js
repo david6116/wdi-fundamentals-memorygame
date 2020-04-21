@@ -66,16 +66,17 @@ function flipCard(){
   console.log("User flipped " + cards[cardId].rank + " of " + cards[cardId].suit);
   this.setAttribute('src', cards[cardId].cardImage);
   if (cardsInPlay.length === 2) {
-    checkForMatch()
+    checkForMatch();
   } else {
     document.getElementById('statusWindow').innerHTML = "Please select a second card.";
     document.getElementById('statusWindow').style.backgroundColor = "Yellow";
   }
 }
 
-function  changeStatus(){
-  status = document.getElementById('statusWindow');
-
-}
+//Future me:
+//consider a function that takes a param and changes the statusWindow
+//rather than having the functionality spread across three other functions
+//function  changeStatus(statusSwitch){
+//}
 
 createBoard();
